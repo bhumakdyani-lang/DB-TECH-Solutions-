@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DB Tech | Innovate. Build. Transform.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #0a0c10;
+      background-image: 
+        radial-gradient(circle at 15% 30%, rgba(0, 180, 255, 0.08) 0%, transparent 30%),
+        radial-gradient(circle at 85% 70%, rgba(0, 255, 255, 0.06) 0%, transparent 35%),
+        radial-gradient(circle at 50% 10%, rgba(0, 120, 255, 0.05) 0%, transparent 40%);
+      color: #eef2f8;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Animated background subtle movement */
+    .bg-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(circle at 20% 40%, rgba(0, 200, 255, 0.03) 0%, transparent 50%);
+      animation: glowPulse 12s infinite alternate ease-in-out;
+    }
+
+    @keyframes glowPulse {
+      0% { opacity: 0.5; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.1); }
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Typography */
+    h1, h2, h3 {
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff 0%, #b0d4ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+    }
+
+    .section-subhead {
+      font-size: 1.1rem;
+      color: #97a9c0;
+      max-width: 700px;
+      margin-bottom: 3rem;
+      font-weight: 400;
+    }
+
+    /* Glassmorphism card style */
+    .glass-card {
+      background: rgba(18, 26, 38, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 180, 255, 0.15);
+      border-radius: 28px;
+      box-shadow: 0 25px 40px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 200, 255, 0.05) inset;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.4s ease;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(0, 210, 255, 0.35);
+      box-shadow: 0 30px 50px -18px rgba(0, 180, 255, 0.25), 0 0 0 1px rgba(0, 210, 255, 0.2) inset;
+      transform: translateY(-5px);
+    }
+
+    /* Navigation */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 1.2rem 0;
+      background: rgba(6, 10, 16, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0, 180, 255, 0.12);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      background: linear-gradient(120deg, #ffffff, #6ec8ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #00e0ff;
+      box-shadow: 0 0 15px #00c8ff, 0 0 30px #00a6ff;
+      animation: dotPulse 2.4s infinite;
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #b8c7dd;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: color 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #9ad8ff;
+      text-shadow: 0 0 12px rgba(0, 200, 255, 0.6);
+    }
+
+    .btn-outline {
+      padding: 0.6rem 1.6rem;
+      border: 1.5px solid rgba(0, 200, 255, 0.4);
+      border-radius: 60px;
+      background: transparent;
+      color: #b4e4ff;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      backdrop-filter: blur(5px);
+    }
+
+    .btn-outline:hover {
+      background: rgba(0, 180, 255, 0.1);
+      border-color: #00c8ff;
+      box-shadow: 0 0 25px rgba(0, 200, 255, 0.3);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 7rem 0 5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.35rem 1.2rem;
+      border-radius: 60px;
+      background: rgba(0, 180, 255, 0.08);
+      border: 1px solid rgba(0, 200, 255, 0.3);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      color: #9ad8ff;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(8px);
+      font-weight: 500;
+    }
+
+    .hero h1 {
+      font-size: 4.6rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.2rem;
+      max-width: 1000px;
+      background: linear-gradient(135deg, #ffffff 30%, #7bc8ff 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-tagline {
+      font-size: 1.7rem;
+      font-weight: 300;
+      color: #a6bbd4;
+      margin-bottom: 2rem;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-tagline span {
+      font-weight: 600;
+      background: linear-gradient(135deg, #00ccff, #8ae2ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      max-width: 640px;
+      font-size: 1.18rem;
+      color: #98abc2;
+      margin-bottom: 3rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      padding: 0.9rem 2.6rem;
+      border-radius: 60px;
+      background: linear-gradient(135deg, #0088ff, #00ccff);
+      border: none;
+      color: #03080e;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 10px 25px -5px rgba(0, 180, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 18px 35px -5px #00a6ff, 0 0 25px rgba(0, 200, 255, 0.5);
+    }
+
+    .btn-secondary {
+      padding: 0.9rem 2.4rem;
+      border-radius: 60px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1.5px solid rgba(0, 200, 255, 0.3);
+      color: #d0e5ff;
+      font-weight: 500;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0, 180, 255, 0.1);
+      border-color: #00c8ff;
+      box-shadow: 0 0 30px rgba(0, 200, 255, 0.2);
+      transform: translateY(-3px);
+    }
+
+    /* Sections */
+    .section {
+      padding: 6rem 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-header {
+      margin-bottom: 2rem;
+    }
+
+    .fields-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .field-card {
+      padding: 2.2rem 1.8rem;
+      border-radius: 28px;
+      text-align: center;
+      transition: all 0.35s ease;
+      cursor: default;
+    }
+
+    .field-icon {
+      font-size: 2.4rem;
+      margin-bottom: 1.2rem;
+      display: inline-block;
+      filter: drop-shadow(0 0 12px rgba(0, 200, 255, 0.5));
+    }
+
+    .field-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #fff, #aae0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .field-card p {
+      color: #9bb1c9;
+      font-size: 0.98rem;
+      font-weight: 400;
+    }
+
+    /* Projects showcase */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .project-card {
+      padding: 2rem 1.8rem;
+      border-radius: 28px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+
+    .project-tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 0.25rem 1rem;
+      border-radius: 60px;
+      background: rgba(0, 200, 255, 0.1);
+      border: 1px solid rgba(0, 200, 255, 0.3);
+      color: #8ad4ff;
+      margin-bottom: 1.2rem;
+      align-self: flex-start;
+    }
+
+    .project-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #fff, #b0dcff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .project-card p {
+      color: #98abc2;
+      font-size: 0.98rem;
+      margin-bottom: 1.8rem;
+      flex-grow: 1;
+    }
+
+    .project-meta {
+      display: flex;
+      gap: 1rem;
+      color: #6f8aa8;
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(0, 180, 255, 0.1);
+      padding-top: 1.2rem;
+      margin-top: auto;
+    }
+
+    /* Build / CTA section */
+    .build-cta {
+      padding: 4rem 3rem;
+      border-radius: 40px;
+      text-align: center;
+      background: rgba(12, 20, 30, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 200, 255, 0.2);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      margin: 2rem 0;
+    }
+
+    .build-cta h2 {
+      font-size: 2.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .build-cta p {
+      color: #a6bbd4;
+      font-size: 1.2rem;
+      max-width: 650px;
+      margin: 0 auto 2.2rem;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 3rem 0 2.5rem;
+      border-top: 1px solid rgba(0, 180, 255, 0.1);
+      margin-top: 4rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .footer-copy {
+      color: #6b7f98;
+      font-size: 0.95rem;
+    }
+
+    .footer-tagline {
+      color: #5d7490;
+      font-size: 0.95rem;
+    }
+
+    .footer-tagline span {
+      color: #8ac8ff;
+      font-weight: 500;
+    }
+
+    /* Animations on scroll (initial state) */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.8s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero h1 { font-size: 3.2rem; }
+      .hero-tagline { font-size: 1.4rem; }
+      h2 { font-size: 2rem; }
+      .nav-links { display: none; } /* simple hidden for mobile, can add menu if needed */
+      .nav-container { justify-content: center; }
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 0 1.5rem; }
+      .hero h1 { font-size: 2.5rem; }
+      .hero-tagline { font-size: 1.2rem; }
+      .section { padding: 4rem 0; }
+      .build-cta { padding: 2.5rem 1.5rem; }
+      .btn-primary, .btn-secondary { padding: 0.8rem 1.8rem; font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <div class="logo">
+        <span class="logo-dot"></span> DB Tech
+      </div>
+      <div class="nav-links">
+        <a href="#fields">Fields</a>
+        <a href="#projects">Projects</a>
+        <a href="#build">Build</a>
+        <a href="#" class="btn-outline">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container hero-content">
+      <div class="hero-badge">⚡ ENGINEERING & TECHNOLOGY</div>
+      <h1>Innovate. Build. Transform.</h1>
+      <div class="hero-tagline">
+        <span>DB Tech</span> — where future engineers create impact
+      </div>
+      <p class="hero-desc">
+        A premium platform for engineering students, colleges, startups, and industries 
+        to showcase, build, and collaborate on cutting-edge projects in EC, EEE, AI/ML, and CS.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn-primary">Explore Projects</a>
+        <a href="#build" class="btn-secondary">Start Building</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Fields Section -->
+  <section id="fields" class="section">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>Core Engineering Fields</h2>
+        <p class="section-subhead">Deep expertise across four transformative domains, driving innovation from concept to deployment.</p>
+      </div>
+      <div class="fields-grid">
+        <!-- EC -->
+        <div class="glass-card field-card fade-up">
+          <div class="field-icon">📡</div>
+          <h3>EC</h3>
+          <p>Electronics & Communication<br>Embedded systems, IoT, VLSI, signal processing</p>
+        </div>
+        <!-- EEE -->
+        <div class="glass-card field-card fade-up">
+          <div class="field-icon">⚡</div>
+          <h3>EEE</h3>
+          <p>Electrical & Electronics<br>Power systems, drives, renewable energy, smart grid</p>
+        </div>
+        <!-- AI/ML -->
+        <div class="glass-card field-card fade-up">
+          <div class="field-icon">🧠</div>
+          <h3>AI/ML</h3>
+          <p>Artificial Intelligence & ML<br>Deep learning, computer vision, NLP, predictive models</p>
+        </div>
+        <!-- CS -->
+        <div class="glass-card field-card fade-up">
+          <div class="field-icon">💻</div>
+          <h3>CS</h3>
+          <p>Computer Science<br>Full-stack, cloud, cybersecurity, blockchain, algorithms</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Showcase -->
+  <section id="projects" class="section">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>Featured Projects</h2>
+        <p class="section-subhead">Real-world engineering solutions built by the DB Tech community — from prototypes to production.</p>
+      </div>
+      <div class="projects-grid">
+        <!-- Project 1 -->
+        <div class="glass-card project-card fade-up">
+          <span class="project-tag">AI/ML</span>
+          <h3>Neural Vision for Autonomous Drones</h3>
+          <p>Real-time object detection and obstacle avoidance using YOLOv8 and edge TPU, deployed on custom drone hardware.</p>
+          <div class="project-meta">
+            <span>🏷️ Computer Vision</span>
+            <span>⚙️ Edge AI</span>
+          </div>
+        </div>
+        <!-- Project 2 -->
+        <div class="glass-card project-card fade-up">
+          <span class="project-tag">EC</span>
+          <h3>Smart Grid Monitoring System</h3>
+          <p>IoT-based fault detection and real-time monitoring for distribution transformers using LoRaWAN and custom PCBs.</p>
+          <div class="project-meta">
+            <span>🏷️ IoT</span>
+            <span>⚙️ Embedded</span>
+          </div>
+        </div>
+        <!-- Project 3 -->
+        <div class="glass-card project-card fade-up">
+          <span class="project-tag">EEE</span>
+          <h3>Solar MPPT with Battery Storage</h3>
+          <p>High-efficiency maximum power point tracking controller for off-grid solar systems with intelligent battery management.</p>
+          <div class="project-meta">
+            <span>🏷️ Power Electronics</span>
+            <span>⚙️ Renewable</span>
+          </div>
+        </div>
+        <!-- Project 4 -->
+        <div class="glass-card project-card fade-up">
+          <span class="project-tag">CS</span>
+          <h3>Decentralized Identity Platform</h3>
+          <p>Blockchain-based self-sovereign identity system for educational credentials with zero-knowledge proofs.</p>
+          <div class="project-meta">
+            <span>🏷️ Blockchain</span>
+            <span>⚙️ Security</span>
+          </div>
+        </div>
+        <!-- Project 5 -->
+        <div class="glass-card project-card fade-up">
+          <span class="project-tag">AI/ML</span>
+          <h3>Predictive Maintenance for Motors</h3>
+          <p>Vibration and thermal anomaly detection using LSTM networks, reducing industrial downtime by 37%.</p>
+          <div class="project-meta">
+            <span>🏷️ Time Series</span>
+            <span>⚙️ Industry 4.0</span>
+          </div>
+        </div>
+        <!-- Project 6 -->
+        <div class="glass-card project-card fade-up">
+          <span class="project-tag">EC</span>
+          <h3>5G mmWave Antenna Array</h3>
+          <p>Beamforming antenna design for 28 GHz band with substrate-integrated waveguide technology.</p>
+          <div class="project-meta">
+            <span>🏷️ RF</span>
+            <span>⚙️ 5G</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Build / CTA Section -->
+  <section id="build" class="section">
+    <div class="container">
+      <div class="build-cta glass-card fade-up">
+        <h2>Build with DB Tech</h2>
+        <p>Whether you're a student, a college, a startup, or an industry leader — we provide the platform, mentorship, and ecosystem to turn your engineering ideas into reality.</p>
+        <a href="#" class="btn-primary" style="font-size:1.1rem; padding:1rem 3rem;">Start Your Project</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-copy">
+        © 2025 DB Tech. All rights reserved.
+      </div>
+      <div class="footer-tagline">
+        <span>Innovate. Build. Transform.</span> — Engineering the future.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll animation script -->
+  <script>
+    (function() {
+      // Intersection Observer for fade-up animations
+      const fadeElements = document.querySelectorAll('.fade-up');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            // Optional: unobserve after animation to keep it simple
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      fadeElements.forEach(el => observer.observe(el));
+
+      // Staggered animation for cards within a grid (adds a small delay via transition-delay, optional)
+      // We'll add a tiny delay based on index for more polish
+      document.querySelectorAll('.fields-grid .field-card').forEach((card, idx) => {
+        card.style.transitionDelay = `${idx * 0.08}s`;
+      });
+      document.querySelectorAll('.projects-grid .project-card').forEach((card, idx) => {
+        card.style.transitionDelay = `${idx * 0.06}s`;
+      });
+    })();
+  </script>
+</body>
+</html>
